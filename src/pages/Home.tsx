@@ -9,7 +9,7 @@ export const HomePage = () => (
       <ul>
         {routes.slice(1).map((route) => (
           <li key={route.path}>
-            <Link to={route.path}>{route.name || route.path}</Link>
+            <Link to={route.path}>{route.title || route.path}</Link>
           </li>
         ))}
       </ul>
