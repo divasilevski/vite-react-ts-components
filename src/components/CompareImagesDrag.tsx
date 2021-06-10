@@ -24,11 +24,19 @@ export const CompareImagesDrag = (props: CompareImagesProps) => {
 
   const [width, setWidth] = React.useState(0)
   const [shift, setShift] = React.useState(-1)
+  const [rectWidth, setRectWidth] = React.useState(0)
 
-  // Centering resize element
+  // Resizing
   const compare = React.useRef(null)
+  const resize = () => {
+    setRectWidth(getClientWidth(compare))
+  }
+
   React.useEffect(() => {
+    resize()
     setWidth(getClientWidth(compare) / 2)
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
   }, [compare])
 
   const mouseDown = (event: React.MouseEvent) => {
@@ -41,7 +49,9 @@ export const CompareImagesDrag = (props: CompareImagesProps) => {
   const mouseMove = (event: React.MouseEvent) => {
     if (shift !== -1) {
       const current = getMouseClientX(event) - shift
-      setWidth((width) => width + current)
+      requestAnimationFrame(() => {
+        setWidth((width) => width + current)
+      })
       setShift(getMouseClientX(event))
     }
   }
@@ -58,9 +68,13 @@ export const CompareImagesDrag = (props: CompareImagesProps) => {
       <div className="compare__before" style={{ width: width + 'px' }}>
         <div
           className="compare__after"
-          style={{ ...bgImg(imgBefore), minWidth: getClientWidth(compare) }}
+          style={{ ...bgImg(imgBefore), minWidth: rectWidth }}
         ></div>
-        <div className="compare__resize" data-type="resize"></div>
+        <div
+          className="compare__resize"
+          style={{ cursor: 'col-resize' }}
+          data-type="resize"
+        ></div>
       </div>
       <div className="compare__after" style={bgImg(imgAfter)}></div>
     </div>
