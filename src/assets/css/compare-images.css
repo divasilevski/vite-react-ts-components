@@ -1,0 +1,28 @@
+.compare {
+  position: relative;
+  width: 100%;
+  background: lightgray;
+}
+.compare .compare__before {
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+}
+.compare .compare__after {
+  min-width: 100%;
+  height: 100%;
+  position: absolute;
+  background: no-repeat center center;
+  background-size: cover;
+}
+
+.compare .compare__resize {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  background-color: white;
+  cursor: col-resize;
+}
